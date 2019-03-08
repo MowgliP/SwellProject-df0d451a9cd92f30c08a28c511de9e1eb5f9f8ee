@@ -39,7 +39,10 @@ namespace RazorPagesTerm.ApiHandlers
                 Title = term.Title,
                 Type = term.Type,
                 Status = term.Status,
-                Name = term.Name
+                Name = term.Name,
+                Version = term.Version,
+                Description = new Markdown(term.Description),
+                Purpose = new Markdown(term.Purpose)
             };
             return library;
         }

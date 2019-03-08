@@ -28,13 +28,17 @@ namespace RazorPagesTerm.ApiHandlers
                 Type = term.Type,
                 Status = term.Status,
                 Name = term.Name,
-                Version = "123",
-                Description = new Markdown("APA"),
-                Url = $"https://localhost:404040/Terms/{term.Name}",
-                Extension = new List<Extension>()
-                {
-                    new Extension("fhir.link/proj/term/synonym",new FhirString("term.Synonym"))
-                }
+                Version = term.Version,
+                Description = new Markdown(term.Description),
+                Purpose = new Markdown(term.Purpose)
+                //Version = "1.0.0",
+                //Description = new Markdown("APA"),
+                //Url = $"https://localhost:44389/Terms/{term.Name}",
+
+                //Extension = new List<Extension>()
+                //{
+                //    new Extension("fhir.link/proj/term/synonym",new FhirString(""))
+                //}
 
             };
             return library;

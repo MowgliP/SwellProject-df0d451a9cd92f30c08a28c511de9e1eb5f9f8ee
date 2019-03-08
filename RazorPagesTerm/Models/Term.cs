@@ -11,5 +11,8 @@ namespace RazorPagesTerm.Models
         public PublicationStatus Status { get => PublicationStatus.Active; }
         public CodeableConcept Type { get => new CodeableConcept("http://terminology.hl7.org/CodeSystem/library-type", "logic-library"); } 
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string Version { get; set; }
+        public string Purpose { get; set; }
     }
 }
