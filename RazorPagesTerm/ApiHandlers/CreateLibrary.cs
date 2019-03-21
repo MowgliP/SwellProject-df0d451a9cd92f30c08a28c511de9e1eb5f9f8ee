@@ -12,12 +12,13 @@ namespace RazorPagesTerm.ApiHandlers
         public static async System.Threading.Tasks.Task CreateLibraryAndPostAsync(Term term)
         {
             var library = GetLibraryFromTerm(term);
+
             await FhirClientHandler.PostLibraryAsync(library);   
         }
 
         private static Library GetLibraryFromTerm(Term term)
         {
-            if(string.IsNullOrEmpty(term.Status.ToString()) || string.IsNullOrEmpty(term.Type.ToString()))
+            if (string.IsNullOrEmpty(term.Status.ToString()) || string.IsNullOrEmpty(term.Type.ToString()))
             {
                 throw new IndexOutOfRangeException();
             }
@@ -30,15 +31,21 @@ namespace RazorPagesTerm.ApiHandlers
                 Name = term.Name,
                 Version = term.Version,
                 Description = new Markdown(term.Description),
-                Purpose = new Markdown(term.Purpose)
-                //Version = "1.0.0",
-                //Description = new Markdown("APA"),
-                //Url = $"https://localhost:44389/Terms/{term.Name}",
+                Purpose = new Markdown(term.Purpose),
+                Date = Date.UtcToday().ToString(),
+                Url = $"https://localhost:44389/Terms/{term.Name}",
+                Meta = new Meta()
+                {
+                    Tag = new List<Coding>()
+                    {
+                        new Coding("fhir.link/proj/term",$"{term.Name}")
+                    }
+                },
 
-                //Extension = new List<Extension>()
-                //{
-                //    new Extension("fhir.link/proj/term/synonym",new FhirString(""))
-                //}
+                Extension = new List<Extension>()
+                {
+                    new Extension("fhir.link/proj/term/synonym",new FhirString(term.Synonym))
+                }
 
             };
             return library;

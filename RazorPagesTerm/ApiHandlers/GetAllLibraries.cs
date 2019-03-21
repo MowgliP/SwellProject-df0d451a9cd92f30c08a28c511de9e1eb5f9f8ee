@@ -20,7 +20,7 @@ namespace RazorPagesTerm.ApiHandlers
             return listOfTerms;
         }
 
-        private static List<Term> GetAllTermsFromLibraryList(List<Library> listOfLibrary)
+        public static List<Term> GetAllTermsFromLibraryList(List<Library> listOfLibrary)
         {
             var listOfTerms = new List<Term>();
             foreach (var library in listOfLibrary)
@@ -36,7 +36,23 @@ namespace RazorPagesTerm.ApiHandlers
             return listOfTerms;
         }
 
-        private static List<Library> GetAllLibrariesFromBundle(Bundle bundle)
+        public static IList<Term> GetAllTermsFromTagSearchAsync(IList<Library> listOfLibrary)
+        {
+            var listOfTerms = new List<Term>();
+            foreach (var library in listOfLibrary)
+            {
+                var term = new Term()
+                {
+                    Id = library.Id,
+                    Name = library.Name,
+                    Title = library.Title
+                };
+                listOfTerms.Add(term);
+            };
+            return listOfTerms;
+        }
+
+        public static List<Library> GetAllLibrariesFromBundle(Bundle bundle)
         {
             var listOfLibraries = new List<Library>();
 
@@ -47,7 +63,6 @@ namespace RazorPagesTerm.ApiHandlers
                     listOfLibraries.Add((Library)entry.Resource);
                 }
             }
-
             return listOfLibraries;
         }
     }

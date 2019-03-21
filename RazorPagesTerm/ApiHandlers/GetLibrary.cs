@@ -22,6 +22,7 @@ namespace RazorPagesTerm.ApiHandlers
         {
             var description = "";
             var purpose = "";
+            var synonym = "";
 
             if( library.Description != null)
             {
@@ -37,6 +38,16 @@ namespace RazorPagesTerm.ApiHandlers
                     purpose = library.Purpose.Value;
                 }
             }
+            if (library.Extension != null)
+            {
+                foreach(var extension in library.Extension)
+                {
+                    if (extension.Url == "fhir.link/proj/term/synonym")
+                    {
+                        synonym = extension.Value.ToString(); 
+                    }
+                }
+            }
 
             var term = new Term()
             {
@@ -45,7 +56,8 @@ namespace RazorPagesTerm.ApiHandlers
                 Title = library.Title,
                 Version = library.Version,
                 Description = description,
-                Purpose = purpose
+                Purpose = purpose,
+                Synonym = synonym
             };
             return term;
         }

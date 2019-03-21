@@ -16,14 +16,38 @@ namespace RazorPagesTerm.Pages.Terms
         public IList<Term> Term { get; set; }
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
-        public SelectList Authors { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public string TermAuthor { get; set; }
 
-        public async Task OnGetAsync()
+        //public static async Task<Term> OnGetAsync(string searchString)
+        //{
+            
+        //    var library = await FhirClientHandler.GetLibraryFromTagAsync("");
+
+        //var term = GetLibrary.LibraryToTermConverter(library);
+
+        //    return term;
+
+
+        //}
+
+    public async Task OnGetAsync()
         {
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                var libraryList = await FhirClientHandler.GetLibraryFromTagAsync(SearchString);
+                Term = GetAllLibraries.GetAllTermsFromTagSearchAsync(libraryList);            
+            }
             Term = await GetAllLibraries.GetAllLibrariesAsTermsAsync();
 
+            //var terms = from t in Term
+            //            select t;
+
+            //if (!string.IsNullOrEmpty(SearchString))
+            //{
+            //    terms = terms.Where(s => s.Name.Equals(SearchString));
+            //}
+
+            
         }
+
     }
 }

@@ -13,16 +13,13 @@ namespace RazorPagesTerm.ApiHandlers
 
         public static async System.Threading.Tasks.Task EditTermAsync(Term term, string id)
         {
-           
             var library = GetLibraryFromTerm(term, id);
-
             await FhirClientHandler.PutLibraryAsync(library, id);
         }
 
         public static Library GetLibraryFromTerm(Term term, string id = null)
         {
             var resourceId = "";
-
             if (string.IsNullOrEmpty(term.Status.ToString()) || string.IsNullOrEmpty(term.Type.ToString()))
             {
                 throw new IndexOutOfRangeException();
@@ -42,7 +39,22 @@ namespace RazorPagesTerm.ApiHandlers
                 Name = term.Name,
                 Version = term.Version,
                 Description = new Markdown(term.Description),
-                Purpose = new Markdown(term.Purpose)
+                Purpose = new Markdown(term.Purpose),
+                Meta = new Meta()
+                {
+                    Tag = new List<Coding>()
+                    {
+                        new Coding("fhir.link/proj/term",$"{term.Name}")
+                    }
+                },
+                Date = Date.UtcToday().ToString(),
+                Url = $"https://localhost:44389/Terms/{term.Name}",
+                Extension = new List<Extension>()
+                {
+                    new Extension("fhir.link/proj/term/synonym",new FhirString(term.Synonym))
+                }
+
+
             };
             return library;
         }

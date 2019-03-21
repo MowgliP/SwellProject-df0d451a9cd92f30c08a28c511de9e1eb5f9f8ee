@@ -32,11 +32,7 @@ namespace RazorPagesTerm.ApiHandlers
 
             var response = await _httpClient.SendAsync(newRequest);
 
-            if (response != null)
-            {
-                var blabla = "vill kunna sätta breakpoint här";
-                //        Najs det funka
-            }
+      
         }
 
             public static async System.Threading.Tasks.Task DeleteLibraryAsync(string id)
@@ -50,11 +46,7 @@ namespace RazorPagesTerm.ApiHandlers
 
             var response = await _httpClient.SendAsync(newRequest);
 
-            if (response != null)
-            {
-                var blabla = "vad händer";
-                //Najs det verkar funka
-            }
+
         }
 
         public static async Task<Bundle> GetBundleAsync()
@@ -88,6 +80,29 @@ namespace RazorPagesTerm.ApiHandlers
             return library;
         }
 
+        public static async Task<IList<Library>> GetLibraryFromTagAsync(string name)
+        {
+               string _tagEndPoint = "fhir.link/proj/term";
+
+
+        //Bygg korrekt url med name
+        var fullUrlFromTag = $"{_fhirApiEndPoint}?_tag={_tagEndPoint}|{name}";
+
+            //Gör ett anrop och få tillbaka resultat
+            var response = await _httpClient.GetAsync(fullUrlFromTag);
+
+            var contentBody = await response.Content.ReadAsStringAsync();
+
+            var fhirJsonParser = new FhirJsonParser();
+            //Casta resultat till library
+
+            var bundle = fhirJsonParser.Parse<Bundle>(contentBody);
+
+            var libraries = GetAllLibraries.GetAllLibrariesFromBundle(bundle);
+
+            return libraries;
+        }
+
         public static async System.Threading.Tasks.Task PostLibraryAsync(Library library)
         {
 
@@ -105,12 +120,6 @@ namespace RazorPagesTerm.ApiHandlers
             };
 
             var response = await _httpClient.SendAsync(newRequest);
-
-            if (response != null)
-            {
-                var blabla = "vill kunna sätta breakpoint här";
-                //Najs det verkar funka
-            }
 
         }
     }

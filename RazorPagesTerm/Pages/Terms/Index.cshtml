@@ -5,23 +5,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
 
-<form>
+@*<form>
     <p>
-        <select asp-for="TermAuthor" asp-items="Model.Authors">
-            <option value="">All</option>
-        </select>
         Title: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
+        <input type="submit" value="Search" />
     </p>
-</form>
+</form>*@
 
-<table class="table">
+<table class="table" >
     <thead>
         <tr>
             <th>
